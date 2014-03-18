@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 "use strict";
 var handlebars = require("handlebars"),
     glob = require("glob"),
@@ -40,42 +41,51 @@ function loadModules(helpers, partials){
     }
 }
 
-var target = process.argv[2];
+function processFile(file, data){
+    var content = "",
+        mappingData = file.data || {};
+    data = w.extend(data, mappingData);
+
+    if (file.copy){
+        var from = render(file.copy, data),
+            to = render(file.dest, data);
+        copy(from, to);
+        console.log("Copied: " + from + " to " + to);
+    } else {
+        if (file.src){
+            var extracted = new FrontMatterExtractor(read(file.src));
+            content = extracted.content;
+            data = w.extend(data, extracted.frontMatter);
+        }
+        var outputFile = render(file.dest, data),
+            outputContent = render(content, data);
+        write(outputFile, outputContent);
+        console.log("Created: " + outputFile);
+    }
+}
+
+var targetName = process.argv[2];
 
 function boil(){
     /* get options from from config.target.options */
-    var options = w.extend({ data: {} }, config[target].options);
+    var target = config[targetName],
+        options = w.extend({ data: {} }, target.options);
 
     // /* merge in data from config.target */
     // var mappingData = config[target].data || {},
     //     data = w.extend(options.data, mappingData);
 
     var data = options.data;
-    data.args = process.argv.slice(2);
+    data.args = process.argv.slice(3);
     loadModules(options.helpers, options.partials);
     
-    config[target].files.forEach(function(file){
-        var content = "",
-            mappingData = file.data || {};
-        data = w.extend(data, mappingData);
-
-        if (file.copy){
-            copy(
-                render(file.copy, data), 
-                render(file.dest, data)
-            );
-        } else {
-            if (file.src){
-                var extracted = new FrontMatterExtractor(read(file.src));
-                content = extracted.content;
-                data = w.extend(data, extracted.frontMatter);
-            }
-            var outputFile = render(file.dest, data),
-                outputContent = render(content, data);
-            write(outputFile, outputContent);
-            console.log("Created: " + outputFile);
-        }
-    });
+    if (target.files){
+        target.files.forEach(function(file){
+            processFile(file, data);
+        });
+    } else {
+        processFile(target, data);
+    }
 }
 
 boil();
