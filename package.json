@@ -1,9 +1,9 @@
 {
-  "name": "boil_",
+  "name": "boil-js",
   "description": "Boilerplate files, packages, apps, websites etc.",
   "version": "0.0.0",
   "author": "Lloyd Brookes",
-  "repository": "https://github.com/75lb/grunt-boil",
+  "repository": "https://github.com/75lb/boil",
   "main": "./lib/boil.js",
   "bin": { "boil": "cli.js"},
   "dependencies": {
