@@ -4,7 +4,8 @@
   "version": "0.6.1",
   "author": "Lloyd Brookes",
   "repository": "https://github.com/75lb/grunt-boil",
-  "bin": { "boil": "boil.js"},
+  "main": "./lib/boil.js",
+  "bin": { "boil": "cli.js"},
   "dependencies": {
     "handlebars": "~2.0.0-alpha.1",
     "js-yaml": "~3.0.0",
