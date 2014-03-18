@@ -110,10 +110,6 @@
         "dest": "tmp/optionsInTask.txt",
         "src": "test/src/optionsIn.hbs"
     },
-    "optionsOrder": {
-        "dest": "tmp/optionsOrder.txt",
-        "src": "test/src/optionsOrder.hbs"
-    },
     "partial": {
         "dest": "tmp/partial.txt",
         "options": {

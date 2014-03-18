@@ -67,17 +67,19 @@ function processFile(file, data){
 var targetName = process.argv[2];
 
 function boil(){
-    /* get options from from config.target.options */
+    /* merge target-level data into the config-level data */
     var target = config[targetName],
-        options = w.extend({ data: {} }, target.options);
+        options = w.extend({}, config.options, target.options);
 
-    // /* merge in data from config.target */
-    // var mappingData = config[target].data || {},
-    //     data = w.extend(options.data, mappingData);
-
-    var data = options.data;
-    data.args = process.argv.slice(3);
     loadModules(options.helpers, options.partials);
+    
+    /* replaces data.args, should it extend? */
+    var data = w.extend(
+        {}, 
+        config.options && config.options.data, 
+        target.options && target.options.data
+    );
+    data.args = process.argv.slice(3);
     
     if (target.files){
         target.files.forEach(function(file){
