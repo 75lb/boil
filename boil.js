@@ -40,19 +40,21 @@ function loadModules(helpers, partials){
     }
 }
 
+var target = process.argv[2];
+
 function boil(){
     /* get options from from config.target.options */
-    var options = w.extend({ data: {} }, config.emptyFile.options);
+    var options = w.extend({ data: {} }, config[target].options);
 
     // /* merge in data from config.target */
-    // var mappingData = config.emptyFile.data || {},
+    // var mappingData = config[target].data || {},
     //     data = w.extend(options.data, mappingData);
 
     var data = options.data;
     data.args = process.argv.slice(2);
     loadModules(options.helpers, options.partials);
     
-    config.emptyFile.files.forEach(function(file){
+    config[target].files.forEach(function(file){
         var content = "",
             mappingData = file.data || {};
         data = w.extend(data, mappingData);
