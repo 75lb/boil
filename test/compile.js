@@ -4,7 +4,7 @@ var test = require("tape"),
 test("compile", function(t){
     var data = { one: 1, two: 2 };
     var template = "{{one}}{{two}}";
-    var func = boil.compile(template, data);
+    var func = boil.compile(template);
 
     t.equal(func(data), "12");
     t.end();
@@ -17,7 +17,7 @@ test("compile with partials", function(t){
         { name: "three", partial: "{{three}}"},
         { name: "four", partial: "{{four}}"}
     ]
-    var func = boil.compile(template, data, partials);
+    var func = boil.compile(template, partials);
 
     t.equal(func(data), "1234");
     t.end();
@@ -27,7 +27,7 @@ test("compile with helper", function(t){
     var data = { one: 1, two: 2, three: 3 };
     var template = "{{one}}{{two}}{{>partial}}";
     var partials = [{ name: "partial", partial: "{{three}}"}]
-    var func = boil.compile(template, data, partials);
+    var func = boil.compile(template, partials);
 
     t.equal(func(data), "123");
     t.end();

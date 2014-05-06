@@ -16,19 +16,22 @@ test("render with partials", function(t){
     var partials = [
         { name: "three", partial: "{{three}}"},
         { name: "four", partial: "{{four}}"}
-    ]
+    ];
     var result = boil.render(template, data, partials);
 
     t.equal(result, "1234");
     t.end();
 });
 
-test("render with helper", function(t){
+test("render with helpers", function(t){
     var data = { one: 1, two: 2, three: 3 };
-    var template = "{{one}}{{two}}{{>partial}}";
-    var partials = [{ name: "partial", partial: "{{three}}"}]
-    var result = boil.render(template, data, partials);
+    var template = "{{one}}{{two}}{{three}}{{four}}";
+    var helpers = [ 
+        { name: "three", helper: function(){ return "three"; } },
+        { name: "four", helper: function(){ return "four"; } }
+    ];
+    var result = boil.render(template, data, null, helpers);
 
-    t.equal(result, "123");
+    t.equal(result, "1234");
     t.end();
 });
