@@ -1,0 +1,13 @@
+{
+    "post":{
+        "options": {
+            "helpers": "assets/helpers/*.js",
+            "partials": "assets/components/*.hbs"
+        },
+        "template": "assets/layouts/tmp.hbs",
+        "data": {
+            "one": 1,
+            "two": 2
+        }
+    }
+}
