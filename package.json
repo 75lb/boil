@@ -17,7 +17,7 @@
     "nature": "^0.4.0"
   },
   "scripts": {
-    "lint": "jshint bin/cli.js lib/boil.js; echo; ",
+    "lint": "jshint bin/cli.js lib/boil.js test/*.js; echo; ",
     "test": "tape ./test/*.js"
   },
   "boil": {
