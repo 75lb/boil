@@ -1,17 +1,28 @@
 {
-    "post":{
+    {{#fileSet "content/articles/*"}}
+    "{{this}}": {
         "template": "post.hbs",
         "data": {
             "article": {
-                "filename": "article.md",
-                "source": "{{read this.filename}}",
-                "title": "{{front-matter this.source frontMatter.title}}",
-                "author": "{{front-matter this.source frontMatter.author}}",
-                "content": "{{front-matter this.source content}}",
+                "filename": "{{this}}",
+                "title": "{{front-matter (read this) 'title'}}",
+                "author": "{{front-matter (read this) 'author'}}",
+                "content": "{{front-matter (read this) '_remainder' true}}",
                 "url": "{{urlBuilder this.title}}",
                 "image": "{{articleImgSrc this.title}}"
             },
             "rootFolder": "../../../"
         }
-    }
+    },
+    {{/fileSet}}
+    "index": {
+        "template": "index.hbs",
+        "data": {
+            "title": "welcome to my site",
+            "articles": [
+                { "name": "article 1", "url": "whatever.html" }
+            ]
+        }
+    },
+    "site": [ "index", "article1" ]
 }
