@@ -13,7 +13,7 @@ var usage = "Usage: \nboil [options] <recipes>";
 var argv = new Model()
     .define({ name: "help", alias: "h", type: "boolean" })
     .define({ name: "recipe", alias: "r", type: Array, defaultOption: true })
-    .define({ name: "list", alias: "l", type: "boolean" })
+    .define({ name: "config", type: "boolean" })
     .define({ name: "template", alias: "t", type: "string" })
     .define({ name: "data", alias: "d", type: "string" })
     .set(process.argv);
@@ -31,21 +31,21 @@ var config = loadConfig(
 
 var options = config.options || {};
 
-if (argv.list){
+if (argv.config){
     console.dir(config);
     process.exit(0);
 
-} else if (argv.recipe) {
+} else if (argv.recipe && argv.recipe.length) {
     argv.recipe.forEach(function(recipe){
         var recipeConfig = config[recipe];
-        recipeConfig.options = w.extend(options, recipeConfig.options);
+        recipeConfig.options = w.extend(options, recipeConfig.options || {});
         boil.registerPartials(recipeConfig.options.partials);
         boil.registerHelpers(recipeConfig.options.helpers);
         console.log(boil.render(recipeConfig.template, recipeConfig.data));
     });
 
 } else if (argv.template) {
-    console.log(boil.render(mfs.read(argv.template), mfs.read(argv.data)));
+    console.log(boil.render(mfs.read(argv.template), JSON.parse(mfs.read(argv.data))));
     
 } else {
     console.log(usage);

@@ -1,13 +1,28 @@
 {
-    "post":{
+    "post": {
         "options": {
             "helpers": "assets/helpers/*.js",
-            "partials": "assets/components/*.hbs"
+            "partials": "assets/partials/*.hbs"
         },
-        "template": "assets/layouts/tmp.hbs",
+        "template": "blah",
         "data": {
-            "one": 1,
-            "two": 2
+            "article": {
+                "title": "Inspired by Ireland",
+                "summary": "blah",
+                "content": "blah"
+            },
+            "rootFolder": "../../../"
         }
-    }
+    },
+    "index": {
+        "template": "index.hbs",
+        "data": {
+            "title": "welcome to my site",
+            "articles": [
+                { "name": "article 1", "url": "whatever.html" }
+            ]
+        }
+    },
+    "site": [ "index", "article1" ]
 }
+
