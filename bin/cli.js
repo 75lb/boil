@@ -44,7 +44,7 @@ if (argv.config){
         console.log(boil.render(recipeConfig.template, recipeConfig.data));
     });
 
-} else if (argv.template) {
+} else if (argv.template && argv.data) {
     console.log(boil.render(mfs.read(argv.template), JSON.parse(mfs.read(argv.data))));
     
 } else {
