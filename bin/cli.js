@@ -54,3 +54,13 @@ if (argv.config){
 
 // precompile templates and watch for changes to source files in boil.json
 // boil(template, data) - make reactive.. if template or data, or source data files change, then re-run boil
+/* 
+handbrake puts data in a template, cli compiles templates to JS.
+
+boil adds 
+
+- rendering from cli (--template --data)
+- a 'reactive data' layer.. the output is re-rendered if either template or data inputs change
+- a means to store presets for boilerplating pages, components, src files etc. 
+
+*/
