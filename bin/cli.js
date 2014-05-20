@@ -36,16 +36,19 @@ if (argv.config){
     process.exit(0);
 
 } else if (argv.recipe && argv.recipe.length) {
-    argv.recipe.forEach(function(recipe){
-        var recipeConfig = config[recipe];
-        recipeConfig.options = w.extend(options, recipeConfig.options || {});
-        boil.registerPartials(recipeConfig.options.partials);
-        boil.registerHelpers(recipeConfig.options.helpers);
-        console.log(boil.render(recipeConfig.template, recipeConfig.data));
+    argv.recipe.forEach(function(recipeName){
+        var recipe = config[recipeName];
+        var mergedOptions = w.extend(options, recipe.options);
+        boil.registerPartials(mergedOptions.partials);
+        boil.registerHelpers(mergedOptions.helpers);
+        console.log(boil.boil(config, recipeName));
     });
 
-} else if (argv.template && argv.data) {
-    console.log(boil.render(mfs.read(argv.template), JSON.parse(mfs.read(argv.data))));
+} else if (argv.template) {
+    var data = argv.data 
+        ? JSON.parse(mfs.read(argv.data))
+        : {};
+    console.log(boil.render(mfs.read(argv.template), data));
     
 } else {
     console.log(usage);
