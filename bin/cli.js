@@ -14,6 +14,7 @@ var argv = new Model()
     .define({ name: "help", alias: "h", type: "boolean" })
     .define({ name: "recipe", alias: "r", type: Array, defaultOption: true })
     .define({ name: "config", type: "boolean" })
+    .define({ name: "helper", type: "string" })
     .define({ name: "template", alias: "t", type: "string" })
     .define({ name: "data", alias: "d", type: "string" })
     .set(process.argv);
@@ -30,6 +31,10 @@ var config = loadConfig(
 );
 
 var options = config.options || {};
+
+if (argv.helper){
+    boil.registerHelpers(argv.helper);    
+}
 
 if (argv.config){
     console.dir(config);
