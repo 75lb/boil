@@ -44,10 +44,14 @@ if (argv.config){
 } else if (argv.recipe && argv.recipe.length) {
     argv.recipe.forEach(function(recipeName){
         var recipe = config[recipeName];
-        var mergedOptions = w.extend(options, recipe.options);
-        boil.registerPartials(mergedOptions.partials);
-        boil.registerHelpers(mergedOptions.helpers);
-        console.log(boil.boil(config, recipeName));
+        if (Array.isArray(recipe)){
+            var recipes = recipe;
+            recipes.forEach(function(recipeName){
+                renderRecipe(config[recipeName], recipeName);
+            });          
+        } else {
+            renderRecipe(recipe, recipeName);
+        }
     });
 
 } else if (argv.template) {
@@ -60,6 +64,19 @@ if (argv.config){
     console.log(usage);
 }
 
+function renderRecipe(recipe, recipeName){
+    var mergedOptions = w.extend(options, recipe.options);
+    boil.registerPartials(mergedOptions.partials);
+    boil.registerHelpers(mergedOptions.helpers);
+
+    var result = boil.boil(config, recipeName);
+    if (recipe.dest){
+        mfs.write(recipe.dest, result)
+        console.log("%s bytes written to %s", result.length, recipe.dest);
+    } else {
+        console.log(result);
+    }
+}
 
 // precompile templates and watch for changes to source files in boil.json
 // boil(template, data) - make reactive.. if template or data, or source data files change, then re-run boil
