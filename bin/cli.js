@@ -14,11 +14,12 @@ var argv = new Model()
     .define({ name: "help", alias: "h", type: "boolean" })
     .define({ name: "recipe", alias: "r", type: Array, defaultOption: true })
     .define({ name: "config", type: "boolean" })
-    .define({ name: "helper", type: "string" })
+    .define({ name: "helper", type: Array })
     .define({ name: "template", alias: "t", type: "string" })
     .define({ name: "data", alias: "d", type: "string" })
     .set(process.argv);
 
+// console.dir(argv.toJSON());return;
 if (argv.help) {
     console.log(usage);
     process.exit(0);
@@ -33,7 +34,7 @@ var config = loadConfig(
 var options = config.options || {};
 
 if (argv.helper){
-    boil.registerHelpers(argv.helper);    
+    argv.helper.forEach(boil.registerHelpers);
 }
 
 if (argv.config){
@@ -50,11 +51,11 @@ if (argv.config){
     });
 
 } else if (argv.template) {
-    var data = argv.data 
+    var data = argv.data
         ? JSON.parse(mfs.read(argv.data))
         : {};
     console.log(boil.render(mfs.read(argv.template), data));
-    
+
 } else {
     console.log(usage);
 }
@@ -62,13 +63,13 @@ if (argv.config){
 
 // precompile templates and watch for changes to source files in boil.json
 // boil(template, data) - make reactive.. if template or data, or source data files change, then re-run boil
-/* 
+/*
 handbrake puts data in a template, cli compiles templates to JS.
 
-boil adds 
+boil adds
 
 - rendering from cli (--template --data)
 - a 'reactive data' layer.. the output is re-rendered if either template or data inputs change
-- a means to store presets for boilerplating pages, components, src files etc. 
+- a means to store presets for boilerplating pages, components, src files etc.
 
 */
