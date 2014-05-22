@@ -42,17 +42,7 @@ if (argv.config){
     process.exit(0);
 
 } else if (argv.recipe && argv.recipe.length) {
-    argv.recipe.forEach(function(recipeName){
-        var recipe = config[recipeName];
-        if (Array.isArray(recipe)){
-            var recipes = recipe;
-            recipes.forEach(function(recipeName){
-                renderRecipe(config[recipeName], recipeName);
-            });          
-        } else {
-            renderRecipe(recipe, recipeName);
-        }
-    });
+    argv.recipe.forEach(renderRecipe);
 
 } else if (argv.template) {
     var data = argv.data
@@ -64,17 +54,23 @@ if (argv.config){
     console.log(usage);
 }
 
-function renderRecipe(recipe, recipeName){
-    var mergedOptions = w.extend(options, recipe.options);
-    boil.registerPartials(mergedOptions.partials);
-    boil.registerHelpers(mergedOptions.helpers);
-
-    var result = boil.boil(config, recipeName);
-    if (recipe.dest){
-        mfs.write(recipe.dest, result)
-        console.log("%s bytes written to %s", result.length, recipe.dest);
+function renderRecipe(recipeName){
+    var recipe = config[recipeName];
+    if (Array.isArray(recipe)){
+        var recipes = recipe;
+        recipes.forEach(renderRecipe);
     } else {
-        console.log(result);
+        var mergedOptions = w.extend(options, recipe.options);
+        boil.registerPartials(mergedOptions.partials);
+        boil.registerHelpers(mergedOptions.helpers);
+
+        var result = boil.boil(config, recipeName);
+        if (recipe.dest){
+            mfs.write(recipe.dest, result)
+            console.log("%s bytes written to %s", result.length, recipe.dest);
+        } else {
+            console.log(result);
+        }
     }
 }
 
