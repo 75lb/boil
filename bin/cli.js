@@ -6,10 +6,11 @@ var boil = require("../lib/boil"),
     path = require("path"),
     w = require("wodge"),
     mfs = require("more-fs"),
+    fs = require("fs"),
     Model = require("nature").Model;
 
+/* Parse and validate user input  */
 var usage = "Usage: \nboil [options] <recipes>";
-
 var argv = new Model()
     .define({ name: "help", alias: "h", type: "boolean" })
     .define({ name: "recipe", alias: "r", type: Array, defaultOption: true })
@@ -19,30 +20,39 @@ var argv = new Model()
     .define({ name: "data", alias: "d", type: "string" })
     .set(process.argv);
 
-// console.dir(argv.toJSON());return;
 if (argv.help) {
     console.log(usage);
     process.exit(0);
 }
 
+/* load boil config data */
 var config = loadConfig(
     path.join(w.getHomeDir(), ".boil.json"),
     path.join(process.cwd(), "boil.json"),
     path.join(process.cwd(), "package.json:boil")
 );
 
-var options = config.options || {};
-
-if (argv.helper){
-    argv.helper.forEach(boil.registerHelpers);
+if (Object.keys(config).length === 0){
+    var boilHbsPath = path.join(process.cwd(), "boil.hbs");
+    if (fs.existsSync(boilHbsPath)){
+        var boilHbs = mfs.read(boilHbsPath);
+        config = JSON.parse(boil.render(boilHbs));
+    }
 }
+
+if (Object.keys(config).length === 0){
+    console.error("No config");
+    process.exit(1);
+}
+
+if (argv.helper) argv.helper.forEach(boil.registerHelpers);
 
 if (argv.config){
     console.dir(config);
     process.exit(0);
 
 } else if (argv.recipe && argv.recipe.length) {
-    argv.recipe.forEach(renderRecipe);
+    argv.recipe.forEach(boil.renderRecipe.bind(null, config));
 
 } else if (argv.template) {
     var data = argv.data
@@ -54,35 +64,14 @@ if (argv.config){
     console.log(usage);
 }
 
-function renderRecipe(recipeName){
-    var recipe = config[recipeName];
-    if (Array.isArray(recipe)){
-        var recipes = recipe;
-        recipes.forEach(renderRecipe);
-    } else {
-        var mergedOptions = w.extend(options, recipe.options);
-        boil.registerPartials(mergedOptions.partials);
-        boil.registerHelpers(mergedOptions.helpers);
-
-        var result = boil.boil(config, recipeName);
-        if (recipe.dest){
-            mfs.write(recipe.dest, result)
-            console.log("%s bytes written to %s", result.length, recipe.dest);
-        } else {
-            console.log(result);
-        }
-    }
-}
-
-// precompile templates and watch for changes to source files in boil.json
-// boil(template, data) - make reactive.. if template or data, or source data files change, then re-run boil
 /*
-handbrake puts data in a template, cli compiles templates to JS.
-
-boil adds
-
 - rendering from cli (--template --data)
-- a 'reactive data' layer.. the output is re-rendered if either template or data inputs change
-- a means to store presets for boilerplating pages, components, src files etc.
+- management of presets (boil.json boil --recipe)
+_ helpers (handrake-array, io, fs, string, fme)
 
+TODO
+
+- read arbitrary JSON from stdin (accessed with {{stdin}})
+- take template data from argv (e.g. boil recipe arg1 arg2)
+- write to artibraty streams, e.g. http
 */
