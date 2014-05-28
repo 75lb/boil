@@ -7,18 +7,18 @@ var boil = require("../lib/boil"),
     w = require("wodge"),
     mfs = require("more-fs"),
     fs = require("fs"),
-    Model = require("nature").Model;
+    parseArgv = require("command-line-args");
 
 /* Parse and validate user input  */
 var usage = "Usage: \nboil [options] <recipes>";
-var argv = new Model()
-    .define({ name: "help", alias: "h", type: "boolean" })
-    .define({ name: "recipe", alias: "r", type: Array, defaultOption: true })
-    .define({ name: "config", type: "boolean" })
-    .define({ name: "helper", type: Array })
-    .define({ name: "template", alias: "t", type: "string" })
-    .define({ name: "data", alias: "d", type: "string" })
-    .set(process.argv);
+var argv = parseArgv([
+    { name: "help", alias: "h", type: Boolean },
+    { name: "recipe", alias: "r", type: Array, defaultOption: true },
+    { name: "config", type: Boolean },
+    { name: "helper", type: Array },
+    { name: "template", alias: "t", type: "string" },
+    { name: "data", alias: "d", type: "string" }
+]);
 
 if (argv.help) {
     console.log(usage);
@@ -47,7 +47,7 @@ function getConfig(){
         console.error("No config");
         process.exit(1);
     }
-    
+
     return config;
 }
 
