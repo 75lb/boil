@@ -7,18 +7,19 @@ var boil = require("../lib/boil"),
     w = require("wodge"),
     mfs = require("more-fs"),
     fs = require("fs"),
-    parseArgv = require("command-line-args");
+    cliArgs = require("command-line-args");
 
 /* Parse and validate user input  */
 var usage = "Usage: \nboil [options] <recipes>";
-var argv = parseArgv([
+var argv = cliArgs([
     { name: "help", alias: "h", type: Boolean },
     { name: "recipe", alias: "r", type: Array, defaultOption: true },
     { name: "config", type: Boolean },
-    { name: "helper", type: Array },
-    { name: "template", alias: "t", type: "string" },
-    { name: "data", alias: "d", type: "string" }
-]);
+    { name: "helper", alias: "f", type: Array },
+    { name: "partial", alias: "p", type: Array },
+    { name: "template", alias: "t", type: String },
+    { name: "data", alias: "d", type: String }
+]).parse();
 
 if (argv.help) {
     console.log(usage);
@@ -57,6 +58,7 @@ if (argv.config){
 }
 
 if (argv.helper) argv.helper.forEach(boil.registerHelpers);
+if (argv.partial) argv.partial.forEach(boil.registerPartials);
 
 if (argv.recipe && argv.recipe.length) {
     var config = getConfig();
