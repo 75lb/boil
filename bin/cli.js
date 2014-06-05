@@ -14,7 +14,8 @@ var usage = "Usage: \nboil [options] <recipes>";
 var argv = cliArgs([
     { name: "help", alias: "h", type: Boolean },
     { name: "recipe", alias: "r", type: Array, defaultOption: true },
-    { name: "config", type: Boolean },
+    { name: "config", alias: "c", type: Boolean },
+    { name: "list", alias: "l", type: Boolean },
     { name: "helper", alias: "f", type: Array },
     { name: "partial", alias: "p", type: Array },
     { name: "template", alias: "t", type: String },
@@ -56,6 +57,10 @@ if (argv.config){
     console.dir(getConfig());
     process.exit(0);
 }
+if (argv.list){
+    console.log(Object.keys(getConfig()));
+    process.exit(0);
+}
 
 if (argv.helper) argv.helper.forEach(boil.registerHelpers);
 if (argv.partial) argv.partial.forEach(boil.registerPartials);
@@ -81,7 +86,7 @@ _ helpers (handrake-array, io, fs, string, fme)
 
 TODO
 
-- read arbitrary JSON from stdin (accessed with {{stdin}})
+- read arbitrary JSON from stdin ()
 - take template data from argv (e.g. boil recipe arg1 arg2)
 - write to artibraty streams, e.g. http
 */
