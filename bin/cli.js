@@ -28,7 +28,6 @@ if (argv.help) {
     process.exit(0);
 }
 
-
 function getConfig(){
     /* load boil config data */
     var config = loadConfig(
@@ -36,15 +35,6 @@ function getConfig(){
         path.join(process.cwd(), "boil.json"),
         path.join(process.cwd(), "package.json:boil")
     );
-
-    /* this was failing when running -t boil.hbs -d copy.json */
-    // if (Object.keys(config).length === 0){
-    //     var boilHbsPath = path.join(process.cwd(), "boil.hbs");
-    //     if (fs.existsSync(boilHbsPath)){
-    //         var boilHbs = mfs.read(boilHbsPath);
-    //         config = JSON.parse(boil.render(boilHbs));
-    //     }
-    // }
 
     if (Object.keys(config).length === 0){
         console.error("No config");
@@ -68,9 +58,7 @@ if (argv.partial) argv.partial.forEach(boil.registerPartials);
 
 if (argv.recipe && argv.recipe.length) {
     var config = getConfig();
-	if (!config.options) config.options = {};
-	if (!config.options.data) config.options.data = {};
-	config.options.data.args = argv.args;
+    config = boil.setArgs(config, argv.args)
     argv.recipe.forEach(boil.renderRecipe.bind(null, config));
 
 } else if (argv.template) {
