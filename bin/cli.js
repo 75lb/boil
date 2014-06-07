@@ -19,7 +19,8 @@ var argv = cliArgs([
     { name: "helper", alias: "f", type: Array },
     { name: "partial", alias: "p", type: Array },
     { name: "template", alias: "t", type: String },
-    { name: "data", alias: "d", type: String }
+    { name: "data", alias: "d", type: String },
+    { name: "args", alias: "a", type: Array }
 ]).parse();
 
 if (argv.help) {
@@ -67,6 +68,9 @@ if (argv.partial) argv.partial.forEach(boil.registerPartials);
 
 if (argv.recipe && argv.recipe.length) {
     var config = getConfig();
+	if (!config.options) config.options = {};
+	if (!config.options.data) config.options.data = {};
+	config.options.data.args = argv.args;
     argv.recipe.forEach(boil.renderRecipe.bind(null, config));
 
 } else if (argv.template) {
