@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 "use strict";
 
-var boil = require("../lib/boil"),
+var boil = require("../"),
     loadConfig = require("config-master"),
     path = require("path"),
-    w = require("wodge"),
     mfs = require("more-fs"),
     fs = require("fs"),
-    cliArgs = require("command-line-args");
+    cliArgs = require("command-line-args"),
+    getHomeDir = require("home-path");
 
 /* Parse and validate user input  */
 var usage = "Usage: \nboil [options] <recipes>";
@@ -31,7 +31,7 @@ if (argv.help) {
 function getConfig(){
     /* load boil config data */
     var config = loadConfig(
-        path.join(w.getHomeDir(), ".boil.json"),
+        path.join(getHomeDir(), ".boil.json"),
         path.join(process.cwd(), "boil.json"),
         path.join(process.cwd(), "package.json:boil")
     );
