@@ -9,7 +9,7 @@
     "boil": "bin/cli.js"
   },
   "dependencies": {
-    "array-ting": "^0.2.0",
+    "array-ting": "^1.0.0",
     "command-line-args": "^0.2.0",
     "config-master": "~0.1",
     "front-matter-extractor": "^1.0.0",
@@ -22,8 +22,8 @@
     "handlebars-path": "~0.0",
     "handlebars-string": "~0.0.1",
     "home-path": "^0.1.1",
-    "more-fs": "~0.3.0",
-    "object-ting": "^0.1.1"
+    "more-fs": "~0.4.0",
+    "object-ting": "^1.0.0"
   },
   "scripts": {
     "lint": "jshint bin/cli.js lib/boil.js test/*.js; echo; ",
