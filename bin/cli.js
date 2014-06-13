@@ -33,7 +33,7 @@ function getConfig(){
     var config = loadConfig(
         path.join(getHomeDir(), ".boil.json"),
         path.join(process.cwd(), "boil.json"),
-        path.join(process.cwd(), "package.json:boil")
+        { jsonPath: path.join(process.cwd(), "package.json"), configProperty: "boil" }
     );
 
     if (Object.keys(config).length === 0){

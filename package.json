@@ -11,7 +11,7 @@
   "dependencies": {
     "array-ting": "^1.0.0",
     "command-line-args": "^0.2.0",
-    "config-master": "~0.1",
+    "config-master": "~0.2",
     "front-matter-extractor": "^1.0.0",
     "handlebars": "^2.0.0",
     "handlebars-ansi": "0.0.2",
