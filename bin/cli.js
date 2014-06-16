@@ -35,6 +35,15 @@ function getConfig(){
         path.join(process.cwd(), "boil.json"),
         { jsonPath: path.join(process.cwd(), "package.json"), configProperty: "boil" }
     );
+    
+    var boilDir = path.join(getHomeDir(), ".boil");
+    var recipeFiles = fs.readdirSync(boilDir);
+    recipeFiles.forEach(function(file){
+        var template = fs.readFileSync(path.join(boilDir, file), "utf8");
+        config[path.basename(file, ".hbs")] = {
+            template: template
+        };
+    });
 
     if (Object.keys(config).length === 0){
         console.error("No config");
