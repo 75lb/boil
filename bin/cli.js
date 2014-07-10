@@ -3,6 +3,7 @@
 
 var boil = require("../"),
     loadConfig = require("config-master"),
+    dope = require("console-dope"),
     path = require("path"),
     mfs = require("more-fs"),
     fs = require("fs"),
@@ -10,8 +11,7 @@ var boil = require("../"),
     getHomeDir = require("home-path");
 
 /* Parse and validate user input  */
-var usage = "Usage: \nboil [options] <recipes>";
-var argv = cliArgs([
+var cli = cliArgs([
     { name: "help", alias: "h", type: Boolean },
     { name: "recipe", alias: "r", type: Array, defaultOption: true },
     { name: "config", alias: "c", type: Boolean },
@@ -21,7 +21,19 @@ var argv = cliArgs([
     { name: "template", alias: "t", type: String },
     { name: "data", alias: "d", type: String },
     { name: "args", alias: "a", type: Array }
-]).parse();
+]);
+
+var usage = cli.getUsage({
+    title: "boil-js",
+    header: "Content generator",
+    forms: [ "$ boil [options] <recipes>" ]
+});
+
+try{
+    var argv = cli.parse();
+} catch(err){
+    halt(err);
+}
 
 if (argv.help) {
     console.log(usage);
@@ -80,14 +92,8 @@ if (argv.recipe && argv.recipe.length) {
     console.log(usage);
 }
 
-/*
-- rendering from cli (--template --data)
-- management of presets (boil.json boil --recipe)
-_ helpers (handrake-array, io, fs, string, fme)
-
-TODO
-
-- read arbitrary JSON from stdin ()
-- take template data from argv (e.g. boil recipe arg1 arg2)
-- write to artibraty streams, e.g. http
-*/
+function halt(err){
+    dope.red.error(err.stack);
+    dope.error(usage);
+    process.exit(1);
+}
