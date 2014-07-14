@@ -10,7 +10,7 @@ var boil = require("../"),
     cliArgs = require("command-line-args"),
     getHomeDir = require("home-path");
 
-/* Parse and validate user input  */
+/* Define command-line args  */
 var cli = cliArgs([
     { name: "help", alias: "h", type: Boolean },
     { name: "recipe", alias: "r", type: Array, defaultOption: true },
@@ -47,7 +47,7 @@ function getConfig(){
         path.join(process.cwd(), "boil.json"),
         { jsonPath: path.join(process.cwd(), "package.json"), configProperty: "boil" }
     );
-    
+
     var boilDir = path.join(getHomeDir(), ".boil");
     var recipeFiles = fs.readdirSync(boilDir);
     recipeFiles.forEach(function(file){
@@ -74,8 +74,8 @@ if (argv.list){
     process.exit(0);
 }
 
-if (argv.helper) argv.helper.forEach(boil.registerHelpers);
-if (argv.partial) argv.partial.forEach(boil.registerPartials);
+if (argv.helper) boil.registerHelpers(argv.helper);
+if (argv.partial) boil.registerPartials(argv.partial);
 
 if (argv.recipe && argv.recipe.length) {
     var config = getConfig();
