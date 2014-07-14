@@ -31,7 +31,7 @@
   "scripts": {
     "lint": "jshint bin/cli.js lib/boil.js test/*.js; echo; ",
     "test": "tape ./test/*.js",
-    "docs": "jsdoc2md jsdoc2md/README.hbs > README.md"
+    "docs": "jsdoc2md -t jsdoc2md/README.hbs lib/*.js > README.md"
   },
   "devDependencies": {
     "tape": "^2.12.3"
