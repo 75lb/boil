@@ -23,6 +23,7 @@
     "handlebars-fs": "~0.0.0",
     "handlebars-io": "^0.1",
     "handlebars-path": "~0.0",
+    "handlebars-regexp": "^0.1.1",
     "handlebars-string": "^1.0.0",
     "home-path": "^0.1.1",
     "more-fs": "~0.4.0",
