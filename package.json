@@ -27,7 +27,7 @@
     "handlebars-string": "^1.0.6",
     "home-path": "^0.1.1",
     "more-fs": "~0.4.0",
-    "object-tools": "^1.0.0"
+    "object-tools": "^1.1.1"
   },
   "scripts": {
     "lint": "jshint bin/cli.js lib/boil.js test/*.js; echo; ",
