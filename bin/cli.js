@@ -9,7 +9,8 @@ var boil = require("../"),
     fs = require("fs"),
     cliArgs = require("command-line-args"),
     getHomeDir = require("home-path"),
-    o = require("object-tools");
+    o = require("object-tools"),
+    a = require("array-tools");
 
 /* Define command-line args  */
 var cli = cliArgs([
@@ -17,8 +18,8 @@ var cli = cliArgs([
     { name: "recipes", alias: "r", type: Array, defaultOption: true },
     { name: "config", alias: "c", type: Boolean },
     { name: "list", alias: "l", type: Boolean },
-    { name: "helpers", alias: "f", type: Array },
-    { name: "partials", alias: "p", type: Array },
+    { name: "helper", alias: "f", type: Array },
+    { name: "partial", alias: "p", type: Array },
     { name: "template", alias: "t", type: String },
     { name: "data", alias: "d", type: String },
     { name: "args", alias: "a", type: Array }
@@ -93,11 +94,11 @@ function getConfig(){
 }
 
 if (argv.config){
-    console.dir(getConfig());
+    console.dir(o.without(getConfig(), "options"));
     process.exit(0);
 }
 if (argv.list){
-    console.log(Object.keys(getConfig()));
+    console.log(a.without(Object.keys(getConfig()), "options"));
     process.exit(0);
 }
 
