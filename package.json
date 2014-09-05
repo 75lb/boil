@@ -1,7 +1,7 @@
 {
   "name": "boil-js",
   "description": "Boilerplate files, packages, apps, websites etc.",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "author": "Lloyd Brookes",
   "repository": "https://github.com/75lb/boil",
   "main": "./lib/boil.js",
