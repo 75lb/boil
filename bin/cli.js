@@ -52,10 +52,10 @@ function getConfig(){
         boilDir: path.join(getHomeDir(), ".boil")
     };
     
+    /* use the boil.hbs to generate a boil.json (if it doesn't exist)  */
     if (!fs.existsSync(p.cwd) && fs.existsSync(p.cwdHbs)){
         var tmpPath = mfs.getTempFilePath("boilHbs.json");
         var result = boil.render(mfs.read(p.cwdHbs));
-        // console.log(result)
         fs.writeFileSync(tmpPath, result);
     }
     

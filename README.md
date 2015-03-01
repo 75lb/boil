@@ -13,7 +13,27 @@ Essentially, boil is Handlebars plus some extra toys. If a ninja was primarily c
 * library of helpers
 * recipe management
 
-
 Yeah it's about populating templates with data but this tool includes extras like helpers, a means for persisting common generation recipes, a streaming interface etc.. You can use it do generate anything from a crafted HTTP POST to a blog.  I'll document properly soon. 
 
-*documented by [jsdoc-to-markdown](https://github.com/75lb/jsdoc-to-markdown)*
+## Usage
+### As a library
+Install:
+```sh
+$ npm install boil --save
+```
+Example:
+```js
+```
+
+### At the command line
+Install the `boil` tool globally: 
+```sh
+$ npm install -g boil
+```
+Example:
+```sh
+$ 
+```
+
+
+*Documented by [jsdoc-to-markdown](https://github.com/75lb/jsdoc-to-markdown)*
