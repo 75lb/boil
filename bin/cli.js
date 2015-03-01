@@ -1,16 +1,15 @@
 #!/usr/bin/env node
 "use strict";
-
-var boil = require("../"),
-    mergeConfig = require("config-master"),
-    dope = require("console-dope"),
-    path = require("path"),
-    mfs = require("more-fs"),
-    fs = require("fs"),
-    cliArgs = require("command-line-args"),
-    getHomeDir = require("home-path"),
-    o = require("object-tools"),
-    a = require("array-tools");
+var boil = require("../");
+var mergeConfig = require("config-master");
+var dope = require("console-dope");
+var path = require("path");
+var mfs = require("more-fs");
+var fs = require("fs");
+var cliArgs = require("command-line-args");
+var getHomeDir = require("home-path");
+var o = require("object-tools");
+var a = require("array-tools");
 
 /* Define command-line args  */
 var cli = cliArgs([
