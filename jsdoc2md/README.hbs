@@ -5,7 +5,7 @@
 
 ***draft documentation***
 
-#boil
+# boil
 Essentially, boil is Handlebars plus some extra toys. If a ninja was primarily concerned with generating content he would install this tool. And not tell you.
 
 * stream IO interface
