@@ -1,3 +1,3 @@
-exports.two = function(){
-    return 2;
-};
+exports.two = function () {
+  return 2
+}
