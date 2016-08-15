@@ -8,33 +8,13 @@
   "bin": {
     "boil": "bin/cli.js"
   },
-  "dependencies": {
-    "array-tools": "^1.0.0",
-    "command-line-args": "~0.5.0",
-    "config-master": "^1",
-    "console-dope": "~0.3.6",
-    "file-set": "~0.2.0",
-    "front-matter-extractor": "^1.1.0",
-    "handlebars": "3.0.0",
-    "handlebars-ansi": "~0.2.0",
-    "handlebars-array": "~0.2.0",
-    "handlebars-comparison": "^2",
-    "handlebars-fileset": "^1.0.0",
-    "handlebars-fs": "^1.0.0",
-    "handlebars-json": "^1.0.0",
-    "handlebars-path": "^1.0.0",
-    "handlebars-regexp": "^1.0.0",
-    "handlebars-string": "^2",
-    "home-path": "~0.1.1",
-    "more-fs": "~0.5.0",
-    "object-tools": "^1.1.1"
-  },
+  "dependencies": {},
   "scripts": {
-    "lint": "jshint bin/cli.js lib/boil.js test/*.js; echo; ",
-    "test": "tape ./test/*.js",
+    "test": "test-runner ./test/*/*.js",
     "docs": "jsdoc2md -t jsdoc2md/README.hbs lib/*.js > README.md"
   },
   "devDependencies": {
-    "tape": "^3.5.0"
+    "core-assert": "^0.2.0",
+    "test-runner": "^0.1.11"
   }
 }
