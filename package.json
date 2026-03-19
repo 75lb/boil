@@ -1,20 +1,39 @@
 {
   "name": "boil",
-  "description": "Boilerplate files, packages, apps, websites etc.",
-  "version": "0.5.0",
-  "author": "Lloyd Brookes",
-  "repository": "https://github.com/75lb/boil",
-  "main": "./lib/boil.js",
-  "bin": {
-    "boil": "bin/cli.js"
+  "author": "Lloyd Brookes <opensource@75lb.com> (http://75lb.com)",
+  "version": "0.0.0",
+  "description": "boil",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/75lb/boil.git"
   },
-  "dependencies": {},
+  "type": "module",
+  "exports": "./index.js",
+  "keywords": [],
+  "license": "MIT",
+  "engines": {
+    "node": ">=12.20"
+  },
   "scripts": {
-    "test": "test-runner ./test/*/*.js",
-    "docs": "jsdoc2md -t jsdoc2md/README.hbs lib/*.js > README.md"
+    "test": "npm run test:ci",
+    "test:ci": "75lb-nature test-runner test.js"
   },
-  "devDependencies": {
-    "core-assert": "^0.2.0",
-    "test-runner": "^0.1.11"
+  "peerDependencies": {
+    "@75lb/nature": "latest"
+  },
+  "peerDependenciesMeta": {
+    "@75lb/nature": {
+      "optional": true
+    }
+  },
+  "files": [
+    "index.js"
+  ],
+  "standard": {
+    "ignore": [
+      "tmp",
+      "dist"
+    ],
+    "envs": []
   }
 }
